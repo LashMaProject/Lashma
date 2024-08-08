@@ -29,10 +29,13 @@ def index():
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     if 'image' not in request.files:
-        return render_template('result.html', error='No file part')
+        return render_template('index.html', error='No file part')
+    
     file = request.files['image']
+    
     if file.filename == '':
-        return render_template('result.html', error='No selected file')
+        return render_template('index.html', error='No selected file')
+    
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -48,11 +51,12 @@ def upload_image():
                 if confidence > highest_confidence:
                     highest_confidence = confidence
                     best_class_name = class_name
-        return render_template('result.html', 
+        return render_template('index.html', 
                                best_class_name=best_class_name,
                                highest_confidence=highest_confidence)
+        
     else:
-        return render_template('result.html', error='Invalid file type')
+        return render_template('index.html', error='Invalid file type')
     
     
 
