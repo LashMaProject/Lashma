@@ -1,0 +1,32 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Prediction</title>
+  </head>
+  <body>
+    <h1>Food Prediction</h1>
+    <form method="post" action="/upload_image" enctype="multipart/form-data">
+      <label for="image">Upload Food Image:</label>
+      <input type="file" name="image" accept=".jpg, .jpeg, .png" required />
+      <button type="submit">Predict</button>
+    </form>
+
+    <div class="container">
+      <h1>Food Detection Result</h1>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% else %}
+      <p class="result">
+        Best Class Name: <strong>{{ best_class_name }}</strong>
+      </p>
+      <p class="result">
+        Highest Confidence: <strong>{{ highest_confidence }}</strong>
+      </p>
+      {% endif %}
+      <a href="/">Upload Another Image</a>
+    </div>
+  </body>
+</html>
