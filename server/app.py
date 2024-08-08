@@ -3,16 +3,29 @@ from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 from ultralytics import YOLO
 import cv2
+
+
 app = Flask(__name__)
+
+
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
+
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 model = YOLO("model/final.pt")
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     if 'image' not in request.files:
@@ -40,6 +53,9 @@ def upload_image():
                                highest_confidence=highest_confidence)
     else:
         return render_template('result.html', error='Invalid file type')
+    
+    
+
 if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
